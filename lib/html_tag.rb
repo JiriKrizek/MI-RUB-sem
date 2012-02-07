@@ -14,6 +14,11 @@ module HTML
       return !@attr.empty?
     end
 
+    def can_has?(klass)
+      $stderr.puts "Warning, tag does not have re-defined can_has? method"
+      true
+    end
+
     def to_s
       if has_attr?
         a=" "

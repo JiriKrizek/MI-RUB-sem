@@ -13,14 +13,31 @@ end
 parser.string = '<!DOCTYPE html>
                 <HTML>
                   <head>
-                    <title></title>
+                    <title>kk</title>
                   </head>
                   <body class="kk mm " id="kk" style="mm">
-                    Hello world
+                    <B>kk<B></B></B>
+                    <I></I>
+                    <U>dkd</U>
+                    <H1>kk</H1>
+                    <TABLE>
+                      <TR>
+                        <TH>kk</TH>
+                        <TD>kk</TD>
+                      </TR>
+                      <TR>
+                        <TH>kk</TH>
+                        <TD>kk</TD>
+                      </TR>
+                    </TABLE>
                   </body>
                 </HTML>'
 begin
   parser.parse
 rescue HTML::InvalidTokenError => e
+  $stderr.puts "Error: #{e}" 
+rescue HTML::InvalidTagError => e
+  $stderr.puts "Error: #{e}" 
+rescue HTML::InvalidChildError => e
   $stderr.puts "Error: #{e}" 
 end

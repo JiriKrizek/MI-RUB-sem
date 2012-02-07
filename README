@@ -11,22 +11,22 @@ Vytvořte program, který dostane na vstup HTML soubor a na výstup dá hlášku
        - zadne atributy
        * <TITLE>
      * <BODY>
-       + B, I, U, BR, TABLE, H1-H6
+       + B, I, U, BR, TABLE, H1-H6 (BodyLike)
        - class
        - id
        - style
        * <B>
-         + B, I, U, BR, TABLE, H1-H6
+         + B, I, U, BR, TABLE, H1-H6 (BodyLike)
          - class
          - id
          - style
        * <I>
-         + B, I, U, BR, TABLE, H1-H6
+         + B, I, U, BR, TABLE, H1-H6 (BodyLike)
          - class
          - id
          - style
        * <U>
-         + B, I, U, BR, TABLE, H1-H6
+         + B, I, U, BR, TABLE, H1-H6 (BodyLike)
          - class
          - id
          - style

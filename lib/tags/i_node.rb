@@ -1,13 +1,9 @@
 require '../lib/invalid_tag_error.rb'
+require '../lib/tags/body_like_canhas.rb'
 
 module HTML
   module Tags
-    class INode < Tag
-      def initialize(tag)
-        super(tag.tag, tag.attr)
-        fail HTML::InvalidTagError.new("Invalid attributes in tag #{@tag}") unless valid_attributes? 
-      end
-      
+    class INode < BodyLikeNode
       def valid_attributes?
         valid=Set.new ["class", "id", "style"]
 

@@ -1,6 +1,7 @@
 require '../lib/tokenizer.rb'
 require '../lib/invalid_token_error.rb'
 require '../lib/invalid_tag_error.rb'
+require '../lib/invalid_child_error.rb'
 require '../lib/tags.rb'
 
 module HTML
@@ -44,8 +45,27 @@ module HTML
         #p "Sym: #{sym}"
         if @tags_map.has_key?(sym)
           mytag = @tags_map[sym].new(t)
+
+            p mytag.ending
+            p "Empty stack? #{@stack.empty?}"
+          unless @stack.empty?
+            if mytag.ending
+              starting = @stack.pop 
+              puts "Starting tagname: #{starting.tagname}"
+              puts "Ending tagname: #{mytag.tagname}" 
+            else
+              parent = @stack.last
+              can_i = parent.can_has?(mytag.class)
+              p "#{parent.tagname} Can-haz? #{mytag.class} #{can_i}"
+              
+              
+            end
+
+          end
           
           @stack.push(mytag)
+
+
           #p "#{mytag}: #{mytag.class} #{mytag.ending}"
         else
           fail HTML::InvalidTagError.new("Invalid tag #{t.tag}, this tag is not supported")
