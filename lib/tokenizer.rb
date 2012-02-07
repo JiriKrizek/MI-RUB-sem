@@ -77,18 +77,85 @@ module HTML
     end
 
     def parse_attr(token)
-      t = token.split(' ')
+      result = Hash.new
+      
+      # oriznout nazev tagu
+      t = token.split(' ', 2)
       tagname = t.shift
-      t.each do |att|
-        v = att.split('=')
-        
-        unless v.length >1 && v.length <=2 
-          fail HTML::InvalidTokenError.new("Could not parse tag <#{tagname}>, invalid attributes") 
-        end
-        #p values
-      end
+      attributes = t[0]
 
-      h = Hash.new
+      # pokud mame nejake atributy, parsujeme je
+      if attributes
+        state_attr = :read_key
+        inquotes = false
+
+        k = ""
+        val = ""
+        attributes.each_char do |ch|
+          puts "char: #{ch}"
+          # Cteme klic, povolujeme jen vyskyt znaku = kdyz mame hodnotu a nebo ' ' pro atributy bez hodnoty, 
+          # napr. kdybychom chteli rozlisit <input disabled>
+          if state_attr == :read_key
+            if ch=='='
+              # Consume =
+              state_attr = :read_value
+            elsif ch=='"'
+              fail InvalidTokenError.new("Could not parse tag #{tagname}, (probably missing '=' in attribute)")
+            elsif ch==' ' 
+              unless k.empty?
+                puts "Result key: '#{k}' = nil"
+                result[k] = nil
+                k=""
+                val=""
+              end
+            else
+              k << ch
+            end
+          elsif state_attr == :read_value
+            if ch=='='
+              fail InvalidTokenError.new("Could not parse tag #{tagname}")
+            elsif ch=='"'
+              inquotes = !inquotes
+              # consume
+              if ! inquotes
+                result[k] = val
+                puts "Result key: '#{k}' = '#{val}'"
+                k=""
+                val=""
+                state_attr = :read_key
+              end
+            else
+              if inquotes
+                val << ch
+              else
+
+              end
+            end
+          end
+        end
+        #while splitted_atr[0] do
+          #key = splitted_atr.shift
+          #value = splitted_atr.shift 
+          #result[key] = value
+        #end
+      end
+      #p attributes.split("\"")
+      #t.each do |att|
+        # v = att.split('=')
+        
+        # if v.length != 1 && v.length != 2
+        #   fail HTML::InvalidTokenError.new("Could not parse tag <#{tagname}>, invalid attributes")
+        # end
+
+        # if v.length == 2 
+        #   fail HTML::InvalidTokenError.new("Could not parse tag <#{tagname}>, attribute value is not properly quoted") unless v[1][0]=='"' && v[1][-1]=='"'
+        # end
+
+        # p v
+      #end
+
+      puts "Result: #{result}"
+      result
     end
   end
 end
