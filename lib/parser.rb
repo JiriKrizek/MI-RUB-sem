@@ -14,53 +14,42 @@ module HTML
 
       
       tags.each do |t|
-        puts
+        #puts
         sym = t.tagname.to_sym
         #p "Sym: #{sym}"
 
-        #p Tag.tags_map
         if Tag.tags_map.has_key?(sym)
           mytag = Tag.tags_map[sym].new(t)
 
-            p "Ending #{mytag.tagname}? #{mytag.ending}"
-            #p "Empty stack? #{@stack.empty?}"
+            #p "Ending #{mytag.tagname}? #{mytag.ending}"
           unless @stack.empty?
             if mytag.ending
-              print "Stack size: #{@stack.size}"
               starting = @stack.pop 
-              puts "aaaaaaaaaaaaaaaa" if starting.tagname == "table"
-              puts "TOP: #{starting}"
-              puts "Starting tagname: #{starting.tagname}"
-              puts "Ending tagname: #{mytag.tagname}" 
-              puts "Stack size: #{@stack.size}"
-              puts "TOP: #{@stack.last}"
             else
               parent = @stack.last
               can_i = parent.can_has?(mytag.class)
 
-              p "#{parent.tagname} Can-haz? #{mytag.class} #{can_i}"
-
               if can_i
                 @stack.push(mytag)
               else
-                p "Tag #{mytag.tagname} can not be child of #{parent.tagname}"
                 fail HTML::InvalidChildError
               end
-              
-              
-              
             end
           else
             @stack.push(mytag)
           end
-
-
-          #p "#{mytag}: #{mytag.class} #{mytag.ending}"
         else
           fail HTML::InvalidTagError.new("Invalid tag #{t.tag}, this tag is not supported")
         end
       end
-      
+        if (@stack.size == 1 && @stack[0].class == HTML::Tags::DoctypeNode)
+          puts "Dokument se zda byt validni\n"
+        elsif @stack.size == 0
+          puts "Dokument se zda byt validni\n"
+        else
+          print_tags(tags)
+          fail StandardError.new("Dokument neni validni, nebo obsahuje nezname tagy")
+        end
     end
     
     def print_tags(tags)

@@ -31,7 +31,7 @@ parser.string = '<!DOCTYPE html>
                       </TR>
                     </TABLE>
                   </body>
-                </HTML>'
+                  </HTML>'
 begin
   parser.parse
 rescue HTML::InvalidTokenError => e
@@ -39,5 +39,7 @@ rescue HTML::InvalidTokenError => e
 rescue HTML::InvalidTagError => e
   $stderr.puts "Error: #{e}" 
 rescue HTML::InvalidChildError => e
+  $stderr.puts "Error: #{e}" 
+rescue StandardError => e
   $stderr.puts "Error: #{e}" 
 end

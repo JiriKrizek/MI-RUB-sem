@@ -47,7 +47,7 @@ module HTML
         a=" "
         a<<@attr.to_s.chomp 
       end
-      print "TAG: <#{@tag}#{a}>"
+      print "<#{@tag}#{a}>"
     end
 
     # Generic tag accepts everything
