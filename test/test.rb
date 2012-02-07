@@ -1,12 +1,20 @@
 require '../lib/parser.rb'
 require '../lib/html_tag.rb'
+
 require '../lib/tags/h1_node.rb'
 require '../lib/tags/h2_node.rb'
 require '../lib/tags/h3_node.rb'
 require '../lib/tags/h4_node.rb'
 require '../lib/tags/h5_node.rb'
 require '../lib/tags/h6_node.rb'
+
+require '../lib/tags/b_node.rb'
+require '../lib/tags/i_node.rb'
+require '../lib/tags/u_node.rb'
+require '../lib/tags/br_node.rb'
+
 require '../lib/tags/body_node.rb'
+
 require 'test/unit'
 
 class TestTokenizer < Test::Unit::TestCase
@@ -70,6 +78,90 @@ class TestTokenizer < Test::Unit::TestCase
 				cl.new(tag)
 			}
 		end
+	end
+
+	def test_b_tag
+			cl = HTML::Tags::BNode
+			tag = HTML::Tag.new("b", {})
+
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("b", {"class"=>"kk", "id"=>"mm", "style"=>"cc"})
+		
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("b", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+		
+			assert_raise(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+	end
+
+	def test_i_tag
+			cl = HTML::Tags::INode
+			tag = HTML::Tag.new("i", {})
+
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("i", {"class"=>"kk", "id"=>"mm", "style"=>"cc"})
+		
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("i", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+		
+			assert_raise(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+	end
+
+	def test_u_tag
+			cl = HTML::Tags::UNode
+			tag = HTML::Tag.new("u", {})
+
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("u", {"class"=>"kk", "id"=>"mm", "style"=>"cc"})
+		
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("u", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+		
+			assert_raise(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+	end
+
+	def test_br_tag
+			cl = HTML::Tags::BrNode
+			tag = HTML::Tag.new("br", {})
+
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("br", {"class"=>"kk", "id"=>"mm", "style"=>"cc"})
+		
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("br", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+		
+			assert_raise(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
 	end
 
 	def test_body_tag
