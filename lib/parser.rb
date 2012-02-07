@@ -15,6 +15,10 @@ require '../lib/tags/h3_node.rb'
 require '../lib/tags/h4_node.rb'
 require '../lib/tags/h5_node.rb'
 require '../lib/tags/h6_node.rb'
+require '../lib/tags/table_node.rb'
+require '../lib/tags/th_node.rb'
+require '../lib/tags/tr_node.rb'
+require '../lib/tags/td_node.rb'
 
 module HTML
   class Parser
@@ -36,7 +40,10 @@ module HTML
         :h4 => HTML::Tags::H4Node,
         :h5 => HTML::Tags::H5Node,
         :h6 => HTML::Tags::H6Node,
-        
+        :table => HTML::Tags::TableNode,
+        :th => HTML::Tags::ThNode,
+        :tr => HTML::Tags::TrNode,
+        :td => HTML::Tags::TdNode,
       }
     end
 

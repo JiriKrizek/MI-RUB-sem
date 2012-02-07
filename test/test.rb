@@ -15,6 +15,11 @@ require '../lib/tags/br_node.rb'
 
 require '../lib/tags/body_node.rb'
 
+require '../lib/tags/table_node.rb'
+require '../lib/tags/th_node.rb'
+require '../lib/tags/tr_node.rb'
+require '../lib/tags/td_node.rb'
+
 require 'test/unit'
 
 class TestTokenizer < Test::Unit::TestCase
@@ -184,6 +189,90 @@ class TestTokenizer < Test::Unit::TestCase
 				cl.new(tag)
 			}
 	end
+
+	  def test_table_tag
+      cl = HTML::Tags::TableNode
+      tag = HTML::Tag.new("table", {})
+
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("table", {"cellpadding"=>"kk", "cellspacing"=>"mm", "border"=>"cc", "summary"=>"kk"})
+    
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("table", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+    
+      assert_raise(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+  end
+
+  def test_tr_tag
+      cl = HTML::Tags::TrNode
+      tag = HTML::Tag.new("tr", {})
+
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("tr", {"align"=>"kk", "char"=>"mm", "valign"=>"cc"})
+    
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("tr", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+    
+      assert_raise(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+  end
+
+  def test_th_tag
+      cl = HTML::Tags::ThNode
+      tag = HTML::Tag.new("th", {})
+
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("th", {"abbr"=>"kk", "align"=>"mm", "rowspan"=>"cc"})
+    
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("th", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+    
+      assert_raise(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+  end
+
+  def test_td_tag
+      cl = HTML::Tags::TdNode
+      tag = HTML::Tag.new("td", {})
+
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("td", {"abbr"=>"kk", "align"=>"mm", "valign"=>"cc"})
+    
+      assert_nothing_raised(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+
+      tag = HTML::Tag.new("td", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+    
+      assert_raise(HTML::InvalidTagError) {
+        cl.new(tag)
+      }
+  end
 
 	# def test_ok_tag
 	# 	parser = HTML::Parser.new
