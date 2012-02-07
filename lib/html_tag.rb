@@ -1,25 +1,28 @@
+require '../lib/tags.rb'
+
 module HTML
   class Tag
-    @@tags = {
-        :html  => HTML::Tags::HtmlNode,
-        :head  => HTML::Tags::HeadNode,
-        :body  => HTML::Tags::BodyNode,
-        :title => HTML::Tags::TitleNode,
-        :b     => HTML::Tags::BNode,
-        :i     => HTML::Tags::INode,
-        :u     => HTML::Tags::UNode,
-        :br    => HTML::Tags::BrNode,
-        :h1    => HTML::Tags::H1Node,
-        :h2    => HTML::Tags::H2Node,
-        :h3    => HTML::Tags::H3Node,
-        :h4    => HTML::Tags::H4Node,
-        :h5    => HTML::Tags::H5Node,
-        :h6    => HTML::Tags::H6Node,
-        :table => HTML::Tags::TableNode,
-        :th    => HTML::Tags::ThNode,
-        :tr    => HTML::Tags::TrNode,
-        :td    => HTML::Tags::TdNode,
-        :doctype => HTML::Tags::DoctypeNode
+    @@tags_map = {
+        :html => "kk"
+        # :html  => Tags::HtmlNode,
+        # :head  => Tags::HeadNode,
+        # :body  => Tags::BodyNode,
+        # :title => Tags::TitleNode,
+        # :b     => Tags::BNode,
+        # :i     => Tags::INode,
+        # :u     => Tags::UNode,
+        # :br    => Tags::BrNode,
+        # :h1    => Tags::H1Node,
+        # :h2    => Tags::H2Node,
+        # :h3    => Tags::H3Node,
+        # :h4    => Tags::H4Node,
+        # :h5    => Tags::H5Node,
+        # :h6    => Tags::H6Node,
+        # :table => Tags::TableNode,
+        # :th    => Tags::ThNode,
+        # :tr    => Tags::TrNode,
+        # :td    => Tags::TdNode,
+        # :doctype => Tags::DoctypeNode
     }
 
     attr_reader :tag, :attr, :ending, :tagname
@@ -55,7 +58,7 @@ module HTML
       true
     end
 
-    def self.tags
+    def self.tags_map
       @@tags
     end
   end

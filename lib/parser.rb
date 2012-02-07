@@ -24,9 +24,10 @@ module HTML
         puts
         sym = t.tagname.to_sym
         #p "Sym: #{sym}"
-        
-        if HTML::Tag.tags.has_key?(sym)
-          mytag = HTML::Tag.tags[sym].new(t)
+
+        p Tag.tags_map
+        if Tag.tags_map.has_key?(sym)
+          mytag = Tag.tags_map[sym].new(t)
 
             p "Ending #{mytag.tagname}? #{mytag.ending}"
             #p "Empty stack? #{@stack.empty?}"
