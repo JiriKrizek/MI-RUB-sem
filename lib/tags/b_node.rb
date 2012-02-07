@@ -12,6 +12,10 @@ module HTML
         }
         true
       end
+
+      def can_has?(klass)
+        self.can_has?(klass)
+      end
     end
   end
 end

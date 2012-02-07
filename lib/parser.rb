@@ -3,33 +3,13 @@ require '../lib/invalid_token_error.rb'
 require '../lib/invalid_tag_error.rb'
 require '../lib/invalid_child_error.rb'
 require '../lib/tags.rb'
+require '../lib/html_tag.rb'
 
 module HTML
   class Parser
     attr_accessor :string
 
     def initialize
-      @tags_map = {
-        :html  => HTML::Tags::HtmlNode,
-        :head  => HTML::Tags::HeadNode,
-        :body  => HTML::Tags::BodyNode,
-        :title => HTML::Tags::TitleNode,
-        :b     => HTML::Tags::BNode,
-        :i     => HTML::Tags::INode,
-        :u     => HTML::Tags::UNode,
-        :br    => HTML::Tags::BrNode,
-        :h1    => HTML::Tags::H1Node,
-        :h2    => HTML::Tags::H2Node,
-        :h3    => HTML::Tags::H3Node,
-        :h4    => HTML::Tags::H4Node,
-        :h5    => HTML::Tags::H5Node,
-        :h6    => HTML::Tags::H6Node,
-        :table => HTML::Tags::TableNode,
-        :th    => HTML::Tags::ThNode,
-        :tr    => HTML::Tags::TrNode,
-        :td    => HTML::Tags::TdNode,
-        :doctype => HTML::Tags::DoctypeNode
-      }
       @stack = []
     end
 
@@ -41,29 +21,40 @@ module HTML
 
       
       tags.each do |t|
+        puts
         sym = t.tagname.to_sym
         #p "Sym: #{sym}"
-        if @tags_map.has_key?(sym)
-          mytag = @tags_map[sym].new(t)
+        
+        if HTML::Tag.tags.has_key?(sym)
+          mytag = HTML::Tag.tags[sym].new(t)
 
-            p mytag.ending
-            p "Empty stack? #{@stack.empty?}"
+            p "Ending #{mytag.tagname}? #{mytag.ending}"
+            #p "Empty stack? #{@stack.empty?}"
           unless @stack.empty?
             if mytag.ending
+              puts "Stack size: #{@stack.size}"
               starting = @stack.pop 
               puts "Starting tagname: #{starting.tagname}"
               puts "Ending tagname: #{mytag.tagname}" 
+              puts "Stack size: #{@stack.size}"
             else
               parent = @stack.last
               can_i = parent.can_has?(mytag.class)
+
               p "#{parent.tagname} Can-haz? #{mytag.class} #{can_i}"
+
+              if can_i
+                @stack.push(mytag)
+              else
+                p "Tag #{mytag.tagname} can not be child of #{parent.tagname}"
+              end
+              
               
               
             end
-
+          else
+            @stack.push(mytag)
           end
-          
-          @stack.push(mytag)
 
 
           #p "#{mytag}: #{mytag.class} #{mytag.ending}"

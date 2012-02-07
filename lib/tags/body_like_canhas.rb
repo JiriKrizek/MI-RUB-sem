@@ -19,9 +19,16 @@ module HTML
                       HTML::Tags::H5Node,
                       HTML::Tags::H6Node]
 
-        @attr.each {|key, value|
-          return false unless valid.include?(key)
-        }
+        p valid
+
+        sym = @tagname.to_sym
+
+        p "#{sym}"
+
+        p "returning false for #{valid.include?(sym)}"
+        return false unless valid.include?(sym)
+        
+        p "returning true for #{valid.include?(key)}"
         true
       end
     end
