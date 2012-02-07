@@ -42,8 +42,16 @@ module HTML
             state = :tagname
           elsif state == :tagname
             if(c=='>')
-              puts "emit tag token '#{tagname}'"
-              p valid_token?(tagname)
+              if valid_token?(tagname)
+                if ending?(tagname) && count_attr(tagname)!=0
+                  fail HTML::InvalidTokenError.new("Ending HTML tag #{tagname} can't have attributes")
+                else
+                  parse_attr(tagname) 
+                end
+              else
+                fail HTML::InvalidTokenError.new("Could not parse tag #{tagname}, invalid tag ")
+              end
+              print "emit tag token '#{tagname}'"
 
               tagname = ""
               state = :data
@@ -58,6 +66,29 @@ module HTML
     def valid_token?(token)
       t = token.split(' ')[0].tr('/', '')
       @valid_tokens.key?(t)
+    end
+
+    def ending?(token)
+      token[0]=='/'
+    end
+
+    def count_attr(token)
+      token.split(' ').length-1
+    end
+
+    def parse_attr(token)
+      t = token.split(' ')
+      tagname = t.shift
+      t.each do |att|
+        v = att.split('=')
+        
+        unless v.length >1 && v.length <=2 
+          fail HTML::InvalidTokenError.new("Could not parse tag <#{tagname}>, invalid attributes") 
+        end
+        #p values
+      end
+
+      h = Hash.new
     end
   end
 end

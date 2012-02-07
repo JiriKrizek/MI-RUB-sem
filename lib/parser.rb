@@ -1,4 +1,5 @@
 require '../lib/tokenizer.rb'
+require '../lib/invalid_token_error.rb'
 
 module HTML
   class Parser
