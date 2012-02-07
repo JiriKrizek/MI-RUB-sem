@@ -43,7 +43,7 @@ module HTML
           elsif state == :tagname
             if(c=='>')
               if valid_token?(tagname)
-                if ending?(tagname) && count_attr(tagname)!=0
+                if ending?(tagname) && attr_exists?(tagname)!=0
                   fail HTML::InvalidTokenError.new("Ending HTML tag #{tagname} can't have attributes")
                 else
                   parse_attr(tagname) 
@@ -72,89 +72,71 @@ module HTML
       token[0]=='/'
     end
 
-    def count_attr(token)
-      token.split(' ').length-1
+    def attr_exists?(token)
+      token.split(' ',2).length-1
     end
 
     def parse_attr(token)
-      result = Hash.new
-      
       # oriznout nazev tagu
       t = token.split(' ', 2)
       tagname = t.shift
       attributes = t[0]
 
-      # pokud mame nejake atributy, parsujeme je
-      if attributes
+      # pokud nemame atributy, vracime prazdny hash
+      result = Hash.new
+      unless attributes
+        return result
+      else # jinak zacnem parsovat atributy
+        # nejdriv cteme klic (nazev atributu)
         state_attr = :read_key
         inquotes = false
 
         k = ""
         val = ""
         attributes.each_char do |ch|
-          puts "char: #{ch}"
-          # Cteme klic, povolujeme jen vyskyt znaku = kdyz mame hodnotu a nebo ' ' pro atributy bez hodnoty, 
-          # napr. kdybychom chteli rozlisit <input disabled>
-          if state_attr == :read_key
-            if ch=='='
-              # Consume =
-              state_attr = :read_value
-            elsif ch=='"'
-              fail InvalidTokenError.new("Could not parse tag #{tagname}, (probably missing '=' in attribute)")
-            elsif ch==' ' 
-              unless k.empty?
-                puts "Result key: '#{k}' = nil"
-                result[k] = nil
-                k=""
-                val=""
-              end
-            else
-              k << ch
+        puts "char: #{ch}"
+        # Cteme klic, povolujeme jen vyskyt znaku = kdyz mame hodnotu a nebo ' ' pro atributy bez hodnoty, 
+        # napr. kdybychom chteli rozlisit <input disabled>
+        if state_attr == :read_key
+          if ch=='='
+            # Consume =
+            state_attr = :read_value
+          # Na " bychom nemeli v nazvu tagu narazit, pokud jsme predtim nedostali =, coz nas zmeni do stavu cteni hodnoty atributu
+          elsif ch=='"' 
+            fail InvalidTokenError.new("Could not parse tag #{tagname}, (probably missing '=' in attribute)")
+          elsif ch==' ' # Mame klic bez hodnoty, ulozime a cteme dalsi klic
+            unless k.empty?
+              puts "Result key: '#{k}' = nil"
+              result[k] = nil
+              k=""
+              val=""
             end
-          elsif state_attr == :read_value
-            if ch=='='
-              fail InvalidTokenError.new("Could not parse tag #{tagname}")
-            elsif ch=='"'
-              inquotes = !inquotes
-              # consume
-              if ! inquotes
-                result[k] = val
-                puts "Result key: '#{k}' = '#{val}'"
-                k=""
-                val=""
-                state_attr = :read_key
-              end
+          else
+            k << ch # Skladame nazev klice
+          end
+        elsif state_attr == :read_value # Jsme ve stavu nacitani hodnoty
+          if ch=='=' # Na znak = bychom nemeli narazit
+            fail InvalidTokenError.new("Could not parse tag #{tagname}")
+          elsif ch=='"' # Vstupujeme do hodnoty, uvozovky ignorujem
+            inquotes = !inquotes
+            # consume
+            if ! inquotes # Pokud jsme opustili uvozovky, ulozime a vracime se do stavu cteni klice
+              result[k] = val
+              puts "Result key: '#{k}' = '#{val}'"
+              k=""
+              val=""
+              state_attr = :read_key
+            end
+          else
+            if inquotes
+              val << ch # Skladame hodnotu
             else
-              if inquotes
-                val << ch
-              else
-
-              end
+              fail InvalidTokenError.new("Could not parse tag #{tagname}, missing value (probably missing '\"')")
             end
           end
         end
-        #while splitted_atr[0] do
-          #key = splitted_atr.shift
-          #value = splitted_atr.shift 
-          #result[key] = value
-        #end
+        end
       end
-      #p attributes.split("\"")
-      #t.each do |att|
-        # v = att.split('=')
-        
-        # if v.length != 1 && v.length != 2
-        #   fail HTML::InvalidTokenError.new("Could not parse tag <#{tagname}>, invalid attributes")
-        # end
-
-        # if v.length == 2 
-        #   fail HTML::InvalidTokenError.new("Could not parse tag <#{tagname}>, attribute value is not properly quoted") unless v[1][0]=='"' && v[1][-1]=='"'
-        # end
-
-        # p v
-      #end
-
-      puts "Result: #{result}"
       result
     end
   end
