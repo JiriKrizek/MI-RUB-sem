@@ -10,6 +10,10 @@ module HTML
       def valid_attributes?
         attr.empty?
       end
+
+      def can_has?(klass)
+        false
+      end
     end
   end
 end

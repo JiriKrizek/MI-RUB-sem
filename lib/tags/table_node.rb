@@ -16,12 +16,9 @@ module HTML
       end
 
       def can_has?(klass)
-        valid=Set.new [HTML::Tags::TrNode]
+        valid=Set.new [HTML::Tags::TrNode, HTML::Tags::ThNode]
 
-        @attr.each {|key, value|
-          return false unless valid.include?(key)
-        }
-        true
+        valid.include?(klass)
       end
     end
   end

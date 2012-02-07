@@ -7,7 +7,7 @@ module HTML
       end
       
       def can_has?(klass)
-        valid=Set.new [HTML::Tags::BNode, 
+        valid=Set.new [HTML::Tags::BNode,
                       HTML::Tags::INode,
                       HTML::Tags::UNode,
                       HTML::Tags::BrNode,
@@ -19,17 +19,7 @@ module HTML
                       HTML::Tags::H5Node,
                       HTML::Tags::H6Node]
 
-        p valid
-
-        sym = @tagname.to_sym
-
-        p "#{sym}"
-
-        p "returning false for #{valid.include?(sym)}"
-        return false unless valid.include?(sym)
-        
-        p "returning true for #{valid.include?(key)}"
-        true
+        valid.include?(klass)
       end
     end
   end 

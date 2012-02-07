@@ -18,7 +18,7 @@ module HTML
         sym = t.tagname.to_sym
         #p "Sym: #{sym}"
 
-        p Tag.tags_map
+        #p Tag.tags_map
         if Tag.tags_map.has_key?(sym)
           mytag = Tag.tags_map[sym].new(t)
 
@@ -26,11 +26,14 @@ module HTML
             #p "Empty stack? #{@stack.empty?}"
           unless @stack.empty?
             if mytag.ending
-              puts "Stack size: #{@stack.size}"
+              print "Stack size: #{@stack.size}"
               starting = @stack.pop 
+              puts "aaaaaaaaaaaaaaaa" if starting.tagname == "table"
+              puts "TOP: #{starting}"
               puts "Starting tagname: #{starting.tagname}"
               puts "Ending tagname: #{mytag.tagname}" 
               puts "Stack size: #{@stack.size}"
+              puts "TOP: #{@stack.last}"
             else
               parent = @stack.last
               can_i = parent.can_has?(mytag.class)
@@ -41,6 +44,7 @@ module HTML
                 @stack.push(mytag)
               else
                 p "Tag #{mytag.tagname} can not be child of #{parent.tagname}"
+                fail HTML::InvalidChildError
               end
               
               
