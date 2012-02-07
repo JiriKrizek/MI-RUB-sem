@@ -8,7 +8,7 @@ module HTML
 
       @valid_tokens = {"html" => 1, "head" => 1, "body" => 1, "title" => 1, "b" => 1, "i" => 1, "u" => 1, 
                        "br" => 1, "table" => 1, "tr" => 1, "th" => 1, "td" => 1, "h1" => 1, 
-                       "h2" => 1, "h3" => 1, "h4" => 1, "h5" => 1, "h6" => 1}
+                       "h2" => 1, "h3" => 1, "h4" => 1, "h5" => 1, "h6" => 1, "doctype" => 1}
     end
 
     def emit(char)
