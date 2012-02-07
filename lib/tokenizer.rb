@@ -18,8 +18,6 @@ module HTML
       tagname = ""
       endtagname = ""
       data = ""
-      p "tokenizing"
-
       @string.each_char { |c|
           if state == :data 
             if c=='<' # consume <; switch to tagopen STATE
@@ -46,13 +44,15 @@ module HTML
                 if ending?(tagname) && attr_exists?(tagname)!=0
                   fail HTML::InvalidTokenError.new("Ending HTML tag #{tagname} can't have attributes")
                 else
-                  parse_attr(tagname) 
+                  tag = parse_tag(tagname)
+
+                  attributes = parse_attr(tagname)
+                  puts "Tag '#{tag}' has attributes '#{attributes}'"
                 end
               else
                 fail HTML::InvalidTokenError.new("Could not parse tag #{tagname}, invalid tag ")
               end
-              print "emit tag token '#{tagname}'"
-
+              
               tagname = ""
               state = :data
             else
@@ -76,6 +76,11 @@ module HTML
       token.split(' ',2).length-1
     end
 
+    def parse_tag(token)
+      t = token.split(' ', 2)
+      t.shift
+    end
+
     def parse_attr(token)
       # oriznout nazev tagu
       t = token.split(' ', 2)
@@ -94,7 +99,6 @@ module HTML
         k = ""
         val = ""
         attributes.each_char do |ch|
-        puts "char: #{ch}"
         # Cteme klic, povolujeme jen vyskyt znaku = kdyz mame hodnotu a nebo ' ' pro atributy bez hodnoty, 
         # napr. kdybychom chteli rozlisit <input disabled>
         if state_attr == :read_key
@@ -106,7 +110,6 @@ module HTML
             fail InvalidTokenError.new("Could not parse tag #{tagname}, (probably missing '=' in attribute)")
           elsif ch==' ' # Mame klic bez hodnoty, ulozime a cteme dalsi klic
             unless k.empty?
-              puts "Result key: '#{k}' = nil"
               result[k] = nil
               k=""
               val=""
@@ -122,7 +125,6 @@ module HTML
             # consume
             if ! inquotes # Pokud jsme opustili uvozovky, ulozime a vracime se do stavu cteni klice
               result[k] = val
-              puts "Result key: '#{k}' = '#{val}'"
               k=""
               val=""
               state_attr = :read_key
