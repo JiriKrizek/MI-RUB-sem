@@ -6,6 +6,7 @@ require '../lib/tags/h3_node.rb'
 require '../lib/tags/h4_node.rb'
 require '../lib/tags/h5_node.rb'
 require '../lib/tags/h6_node.rb'
+require '../lib/tags/body_node.rb'
 require 'test/unit'
 
 class TestTokenizer < Test::Unit::TestCase
@@ -69,6 +70,27 @@ class TestTokenizer < Test::Unit::TestCase
 				cl.new(tag)
 			}
 		end
+	end
+
+	def test_body_tag
+			cl = HTML::Tags::BodyNode
+			tag = HTML::Tag.new("body", {})
+
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("body", {"class"=>"kk", "id"=>"mm", "style"=>"cc"})
+		
+			assert_nothing_raised(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
+
+			tag = HTML::Tag.new("body", {"class"=>"kk", "id"=>"mm", "neexistuje"=>"cc"})
+		
+			assert_raise(HTML::InvalidTagError) {
+				cl.new(tag)
+			}
 	end
 
 	# def test_ok_tag
