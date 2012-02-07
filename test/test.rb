@@ -1,24 +1,7 @@
 require '../lib/parser.rb'
 require '../lib/html_tag.rb'
 
-require '../lib/tags/h1_node.rb'
-require '../lib/tags/h2_node.rb'
-require '../lib/tags/h3_node.rb'
-require '../lib/tags/h4_node.rb'
-require '../lib/tags/h5_node.rb'
-require '../lib/tags/h6_node.rb'
-
-require '../lib/tags/b_node.rb'
-require '../lib/tags/i_node.rb'
-require '../lib/tags/u_node.rb'
-require '../lib/tags/br_node.rb'
-
-require '../lib/tags/body_node.rb'
-
-require '../lib/tags/table_node.rb'
-require '../lib/tags/th_node.rb'
-require '../lib/tags/tr_node.rb'
-require '../lib/tags/td_node.rb'
+require '../lib/tags.rb'
 
 require 'test/unit'
 
