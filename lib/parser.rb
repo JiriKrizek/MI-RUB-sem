@@ -10,9 +10,23 @@ module HTML
     end
 
     def parse 
-      p @string
       tok = Tokenizer.new(string)
-      tok.tokenize
+      tags = tok.tokenize
+
+      indent = 0
+
+      tags.each do |t|
+        unless t.ending 
+          indent+=1
+        end
+
+        indent.times  {|i| print ' '}
+        puts t.to_s
+        if t.ending
+          indent-=1
+        end
+        
+      end
     end
   end
 end

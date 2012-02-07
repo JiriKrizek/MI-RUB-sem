@@ -1,3 +1,5 @@
+require '../lib/html_tag.rb'
+
 module HTML
   class Tokenizer
     attr_accessor :string
@@ -10,10 +12,12 @@ module HTML
     end
 
     def emit(char)
-      print char
+      #print char
     end
 
     def tokenize
+      tags = Array.new
+
       state = :data
       tagname = ""
       endtagname = ""
@@ -22,7 +26,6 @@ module HTML
           if state == :data 
             if c=='<' # consume <; switch to tagopen STATE
               state = :tagopen
-              puts
             else # else consume a-z; emit character token
               data << c
               emit(c)
@@ -47,7 +50,8 @@ module HTML
                   tag = parse_tag(tagname)
 
                   attributes = parse_attr(tagname)
-                  puts "Tag '#{tag}' has attributes '#{attributes}'"
+                  #puts "Tag '#{tag}' has attributes '#{attributes}'"
+                  tags << HTML::Tag.new(tag, attributes)
                 end
               else
                 fail HTML::InvalidTokenError.new("Could not parse tag #{tagname}, invalid tag ")
@@ -60,6 +64,7 @@ module HTML
             end
           end
       }
+      tags
     end
 
   private
