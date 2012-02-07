@@ -17,7 +17,12 @@ module HTML
         a=" "
         a<<@attr.to_s.chomp 
       end
-      print "<#{@tag}#{a}>"
+      print "TAG: <#{@tag}#{a}>"
+    end
+
+    # Generic tag accepts everything
+    def valid_attributes?
+      true
     end
   end
 end
