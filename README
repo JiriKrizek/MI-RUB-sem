@@ -4,50 +4,62 @@ Vytvořte program, který dostane na vstup HTML soubor a na výstup dá hlášku
 
 
    * <HTML>
+     + HEAD a BODY
      - zadne atributy
      * <HEAD>
+       + TITLE
        - zadne atributy
        * <TITLE>
      * <BODY>
+       + B, I, U, BR, TABLE, H1-H6
        - class
        - id
        - style
        * <B>
+         + B, I, U, BR, TABLE, H1-H6
          - class
          - id
          - style
        * <I>
+         + B, I, U, BR, TABLE, H1-H6
          - class
          - id
          - style
        * <U>
+         + B, I, U, BR, TABLE, H1-H6
          - class
          - id
          - style
        * <BR>
+         + _nic_
          - class
          - id
          - style
        * tabulky
          * <TABLE>
+           + TR
            - border
            - cellpadding
            - cellspacing
            - summary
            * <TR>
+             + TH, TD
              - align
              - char
              - valign
              * <TH>
+               + _nic_
                - abbr
                - align
                - rowspan
              * <TD>
+               + _nic_
                - abbr
                - align
                - valign
        * nadpisy
          * <H1> - <H6>
+           + _nic_
            - class
            - id
            - lang
