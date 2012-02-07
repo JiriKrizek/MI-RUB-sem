@@ -1,6 +1,3 @@
-require '../lib/invalid_tag_error.rb'
-require '../lib/html_tag.rb'
-
 module HTML
   module Tags
     class HtmlNode < Tag

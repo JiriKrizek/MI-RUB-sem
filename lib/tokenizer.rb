@@ -1,5 +1,3 @@
-require '../lib/html_tag.rb'
-
 module HTML
   class Tokenizer
     attr_accessor :string
@@ -45,16 +43,16 @@ module HTML
             if(c=='>')
               if valid_token?(tagname)
                 if ending?(tagname) && attr_exists?(tagname)!=0
-                  fail HTML::InvalidTokenError.new("Ending HTML tag #{tagname} can't have attributes")
+                  fail InvalidTokenError.new("Ending HTML tag #{tagname} can't have attributes")
                 else
                   tag = parse_tag(tagname)
 
                   attributes = parse_attr(tagname)
                   #puts "Tag '#{tag}' has attributes '#{attributes}'"
-                  tags << HTML::Tag.new(tag, attributes)
+                  tags << Tag.new(tag, attributes)
                 end
               else
-                fail HTML::InvalidTokenError.new("Could not parse tag #{tagname}, invalid tag ")
+                fail InvalidTokenError.new("Could not parse tag #{tagname}, invalid tag ")
               end
               
               tagname = ""

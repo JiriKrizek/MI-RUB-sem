@@ -1,5 +1,3 @@
-require '../lib/invalid_tag_error.rb'
-require '../lib/tags/h_node.rb'
 require 'set'
 
 module HTML

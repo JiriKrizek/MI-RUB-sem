@@ -1,10 +1,3 @@
-require '../lib/tokenizer.rb'
-require '../lib/invalid_token_error.rb'
-require '../lib/invalid_tag_error.rb'
-require '../lib/invalid_child_error.rb'
-require '../lib/tags.rb'
-require '../lib/html_tag.rb'
-
 module HTML
   class Parser
     attr_accessor :string

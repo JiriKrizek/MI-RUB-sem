@@ -1,4 +1,3 @@
-require '../lib/invalid_tag_error.rb'
 require 'set'
 
 module HTML

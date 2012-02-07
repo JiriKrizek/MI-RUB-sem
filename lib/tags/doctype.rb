@@ -1,5 +1,3 @@
-require '../lib/invalid_tag_error.rb'
-
 module HTML
   module Tags
     class DoctypeNode < Tag

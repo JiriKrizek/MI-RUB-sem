@@ -1,4 +1,4 @@
-require '../lib/parser.rb'
+require File.dirname(__FILE__) + "/../lib/validator.rb"
 
 parser = HTML::Parser.new
 parser.string = '<html><head>
