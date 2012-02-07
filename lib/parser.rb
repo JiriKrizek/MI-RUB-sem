@@ -3,6 +3,7 @@ require '../lib/invalid_token_error.rb'
 require '../lib/invalid_tag_error.rb'
 require '../lib/tags/html_node.rb'
 require '../lib/tags/head_node.rb'
+require '../lib/tags/title_node.rb'
 
 module HTML
   class Parser
@@ -11,7 +12,8 @@ module HTML
     def initialize
       @tags_map = {
         :html => HTML::Tags::HtmlNode,
-        :head => HTML::Tags::HeadNode
+        :head => HTML::Tags::HeadNode,
+        :title => HTML::Tags::TitleNode
       }
     end
 
@@ -22,7 +24,8 @@ module HTML
       #print_tags(tags)
 
       tags.each do |t|
-        sym = t.tag.to_sym
+        sym = t.tagname.to_sym
+        p "Sym: #{sym}"
         if @tags_map.has_key?(sym)
           mytag = @tags_map[sym].new(t)
           p "#{mytag}: #{mytag.class} #{mytag.ending}"

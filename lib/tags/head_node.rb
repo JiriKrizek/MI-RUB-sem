@@ -8,8 +8,9 @@ module HTML
         fail HTML::InvalidTagError.new("Invalid attributes in tag #{@tag}") unless valid_attributes? 
       end
       
+      # No valid attr
       def valid_attributes?
-        true
+        attr.empty?
       end
     end
   end
